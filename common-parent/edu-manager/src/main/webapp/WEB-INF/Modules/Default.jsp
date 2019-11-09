@@ -44,8 +44,13 @@
 							onclick="Common.switchNavigation(this);"
 							data-url="${pageContext.request.contextPath}/user/manage.do">用户管理</a>
 						</li>
+						<li class="navContent nav_current">
+							<a href="#" class="showNav" id="employee" data-name="main_iframe"
+							   onclick="Common.switchNavigation(this);"
+							   data-url="${pageContext.request.contextPath}/employee/manage.do">员工管理</a>
+						</li>
 						<li class="navContent">
-							<a href="#" class="showNav" id="finance" data-name="main_iframe"
+							<a href="#" class="showNav" id="salary" data-name="main_iframe"
 							onclick="Common.switchNavigation(this);"
 							data-url="${pageContext.request.contextPath}/salary/manage.do">工资管理</a>
 						</li>

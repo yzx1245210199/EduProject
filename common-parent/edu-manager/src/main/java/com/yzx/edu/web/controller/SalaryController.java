@@ -7,15 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/salary")
+public class SalaryController {
     @Autowired
     private IUserService userService;
-    @RequestMapping("/login")
-    public String login(){
-        System.out.println("login....");
-        return "Default";
-    }
 
     @RequestMapping("/find")
     public String find(Integer id){
@@ -25,19 +20,19 @@ public class UserController {
     }
     @RequestMapping("/manage")
     public String manager(){
-        return "user/manage";
+        return "salary/manage";
     }
 
     @RequestMapping("/info")
     public String info(){
-        return "user/info";
+        return "salary/info";
     }
     @RequestMapping("/edit")
     public String edit(){
-        return "user/edit";
+        return "salary/edit";
     }
     @RequestMapping("/update")
     public String update(){
-        return "user/update";
+        return "salary/update";
     }
 }
