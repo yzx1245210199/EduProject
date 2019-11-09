@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+    <!-- 1.加载db配置文件  -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 2.配置c3p0数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="2"/>
+    </bean>
+
+    <!-- 3.让spring管理sqlsessionFactory -->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 指定配置文件位置 -->
+        <!--<property name="configLocation" value="classpath:mybaits.xml"/>-->
+        <!--配置别名-->
+        <property name="typeAliasesPackage" value="com.yzx.edu.model"></property>
+        <!--批量加载映射文件-->
+        <property name="mapperLocations" value="classpath:com/yzx/edu/mapper/*Mapper.xml"></property>
+    </bean>
+
+    <!-- 4.配置mapper扫描器.批量扫描创建代理对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.yzx.edu.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+    </bean>
+    
+    <!--添加spring注解-->
+    <!--自动扫描注解-->
+    <context:component-scan base-package="com.yzx.edu"/>
+
+    <!-- 5.配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 6.开启事务注解-->
+    <tx:annotation-driven></tx:annotation-driven>
+
+</beans>
